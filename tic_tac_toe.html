@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">                
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>tic tac toe</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <style type="text/css" media="all">
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        html , body{
+            
+            margin: 0px;
+            height: 100%;
+            width: 100%;
+           transition: all 0.2s !important;
+            background-color: #121212;
+            outline: none;
+        }
+        
+        #main{
+           opacity: 0;
+           pointer-events: none;
+          position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center !important;
+            transition: all 0.3s ease;
+        }
+        
+        .play_asas{
+            
+            
+          
+            
+        }
+        .cu{
+            display: flex;
+           
+            
+       
+        }
+        .cu .btns{
+            display: block;
+            background-color: #212529;
+            width: 96px;
+            height: 96px;
+            margin: 3px;
+            border-radius: 5px;
+            color: red;
+            text-align: center;
+            transition: all 0.5s !important;
+            font-size: 80px;
+            
+        }
+        
+        #select_play{
+            background-color:#181818;
+      
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            padding: 20px 25px 25px;
+            border-radius: 5px;
+            max-width: 250px;
+            width: 100%;
+            box-shadow: 1px 1px 5px #000;
+            ddisplay : none !important; 
+            
+        }
+        
+        #text_play{
+            bbackground-color: white;
+            width: 100%;
+            text-align: center;
+            margin: 22px 0px;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
+        
+        
+        
+        
+        #chose{
+            
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .btns_sh{
+            padding: 5px 25px;
+            background-color: #fff;
+            margin: 0px 5px;
+            border: none;
+            border-radius: 5px;
+            
+            color: #fff;
+            font-weight: 500;
+            font-size: 19px;
+            
+        }
+        
+        
+        .xc{
+            background-color: red;
+        }
+        .oc{
+            background-color:#56baed ;
+        }
+        
+        #select_play.hide{
+             opacity:  0 ;
+             pointer-events: none ;
+        }
+        
+        #main.show{
+            opacity: 1 ;
+            pointer-events: auto  ;
+        }
+        
+        .win{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #1F1F1F;
+            padding: 14px 20px;
+            width : 230px;
+            text-align: center;
+            border-radius: 5px;
+            
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .win.show{
+            opacity: 1;
+            pointer-events: auto;
+            
+        }
+        .win .text {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight : bold;
+            color: #fff;
+        }
+        .win button{
+            border: none;
+            border-radius: 5px;
+            padding: 5px 20px;
+            font-size: 19px;
+            font-weight: 500;
+            background-color: #fff;
+            
+        }
+    
+        
+        
+        
+        
+        .wi{
+            width: 100%;
+            height: 100%;
+            line-height: 96px;
+            display: block ;
+        }
+        
+        .x_w{
+            
+            font-size: 90px;
+            
+        }
+        
+        .turn {
+     
+            border-radius: 5px;
+          
+            background-color: #212529;
+            text-align: center;
+            width: 97%;
+            margin-left: 4.5px;
+            margin-bottom: 5px;
+            padding: 10px 0px;
+        }
+        .player_t{
+            width: 100%;
+            display: flex;
+           position: relative;
+           justify-content: space-between;
+           text-align: center;
+            
+        }
+        .x_turn ,.o_turn{
+       
+            
+            font-size: 19px;
+            font-weight: 500;
+             padding: 7px 0px;
+             width: 100%;
+            
+             border-radius: 5px;
+            text-align: center;
+            color: #56baed;
+            transition: all 0.3 ease;
+            z-index: 5;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .player_t span:first-child{
+            color: #fff;
+        }
+        
+        .player_t.act span:first-child{
+              color: #56baed;
+}
+        .player_t.act span:nth-child(2){
+  color: #fff;
+}
+        .player_t.act .sli{
+  left: 50%;
+  background-color: #56baed;
+}
+        
+        .sli{
+            position: absolute;
+            background-color: red;
+            border-radius: 5px;
+            height: 100%;
+            width: 50%;
+            z-index: 2;
+            left: 0%;
+            transition: all 0.3s ease !important;
+        }
+    </style>
+    <body>
+    <!--    <button class="reset" onclick="reset()" type="button">reset</button>
+      -->
+        
+      
+        <div id="select_play">
+           
+            <div id="text_play">حدد ماذا تريد ان تكون؟</div>
+            <div id="chose">
+                <button id="X" class="btns_sh xc" type="button">(X)اللاعب</button>
+                <button id="O" class="btns_sh oc" type="button">(O)اللاعب</button>
+            </div>
+            
+        </div>
+        <div id="main">
+            
+              <div class="turn">
+          <div class="player_t">
+              
+          
+              <span class="x_turn ">
+                  (X)دور 
+              </span>
+          
+              <span class="o_turn ">
+                 (O)دور 
+              </span>
+              <div class="sli">
+              
+              
+              </div>
+          </div>
+      </div>
+      <div class="play_asas">
+          
+     
+            <section id="cu1" class="cu">
+                
+          
+                
+                <span class="btns"></span>
+                <span class="btns"></span>
+                <span class="btns"></span>
+                
+             </section>
+             <section id="cu1" class="cu">
+                
+                <span class="btns"></span>
+                <span class="btns"></span>
+                <span class="btns"></span>
+                
+            </section>
+             <section id="cu1" class="cu">
+                
+                <span class="btns"></span>
+                <span class="btns"></span>
+                <span class="btns"></span>
+                
+            </section>
+         </div>
+        </div>
+        
+        <div class="win">
+            
+            <div class="text">
+                ! اللاعب()فاز في اللعبة 
+            </div>
+            <button onclick="replay()" class="btn_win" type="button">أعادة</button>
+            
+            
+        </div>
+        
+      
+        <script type="text/javascript" charset="utf-8">
+            
+            var btns = document.getElementsByClassName("btns"),
+                play_x = document.getElementById("X"),
+                play_o = document.getElementById("O"),
+                select_box = document.getElementById("select_play"),
+                play_main = document.getElementById("main"),
+                player = document.getElementById("chose"),
+                box = document.querySelectorAll(".play_asas span"),
+                win_r = document.getElementsByClassName("win")[0],
+                player_t = document.getElementsByClassName("player_t")[0];
+            
+            var x_o = "O";
+            var run = true ;
+            let playerXIcon = "fas fa-times wi x_w "; 
+            let playerOIcon = "far fa-circle wi"; 
+            play_o.onclick = ()=>{
+                
+                select_play.classList.add("hide");
+                play_main.classList.add("show");
+                player_t.classList.add("act");
+            
+            }
+            
+            play_x.onclick = ()=>{
+                
+                select_play.classList.add("hide");
+                play_main.classList.add("show");
+                
+                player.classList.add("player")
+                
+            }
+            
+            for (var i in btns){
+                btns[i].setAttribute("onclick","fun(this)");
+                
+                }
+            
+            function fun(el){
+               
+               if(player.classList.contains("player")){
+                    el.innerHTML =`<i style=' border-radius: 5px !important; color :red !important; !important ; ' class='${playerXIcon}' ></i>`;
+                    x_o = "X";
+                    
+                    
+                    el.setAttribute("id",x_o);
+                    player_t.classList.add("act");
+                     }else{
+                    el.innerHTML =`<i style=' border-radius: 5px !important; color :#56baed !important;' class='${playerOIcon}' ></i>`;
+                    
+                    el.setAttribute("id",x_o);
+                    player_t.classList.add("act");
+            
+               }
+               
+               win();
+               el.style.pointerEvents = "none";         
+               play_main.style.pointerEvents = "none";
+               var test = ((Math.random() * 1000 ) + 200).toFixed();
+               
+                setTimeout(function(){
+                   
+                   bot()
+                   
+               }, test);
+            }
+            function bot(){
+               if(run){
+                var ar = [];
+                 x_o = "X";
+                for(var i =0; i < btns.length; i++){
+                if(btns[i].childElementCount == 0 ){
+                    ar.push(btns[i]);
+                    
+                }
+                
+                
+            }
+            var nuran = Math.floor(Math.random() * ar.length);
+            var ran = ar[nuran]
+            
+            
+            
+            
+            
+            
+            if(ar.length > 0){
+                 
+                if(player.classList.contains("player")){
+                    ran.innerHTML =`<i style='color :#56baed !important;   !important ;' class='${playerOIcon}' ></i>`;
+                    x_o = "O";
+                    
+                    ran.setAttribute("id",x_o);
+                    player_t.classList.remove("act");
+                 
+                }else{
+                    ran.innerHTML =`<i style='color :red !important;' class='${playerXIcon}' ></i>`;
+                    
+                    ran.setAttribute("id",x_o);
+                     player_t.classList.remove("act");
+                    
+               }
+               win();
+               x_o = "O";
+               ran.style.pointerEvents = "none"; 
+               play_main.style.pointerEvents = "auto "
+          
+            }
+            }
+            }
+          
+            
+            function getElement(index){
+                return box[index].id;
+                }
+            
+            function make_Sure(val1 , val2 , val3 , x_o){
+                
+                if(getElement(val1) == x_o && getElement(val2) == x_o && getElement(val3) == x_o){
+                    
+                    return true;
+                    
+                }else{
+                    return false;
+                }
+                
+                
+            }
+            
+            function win(){
+               
+                
+                if(make_Sure(0,1,2,x_o)){
+                    
+                    run = false;
+                    bot(); 
+                    box[0].style.backgroundColor = "white";
+                    box[1].style.backgroundColor = "white";
+                    box[2].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(3,4,5,x_o)){
+                    run = false;
+                    bot(); 
+                    box[3].style.backgroundColor = "white";
+                    box[4].style.backgroundColor = "white";
+                    box[5].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(6,7,8,x_o)){
+                    run = false;
+                    bot(); 
+                    box[6].style.backgroundColor = "white";
+                    box[7].style.backgroundColor = "white";
+                    box[8].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(0,3,6,x_o)){
+                    run = false;
+                    bot(); 
+                    box[0].style.backgroundColor = "white";
+                    box[3].style.backgroundColor = "white";
+                    box[6].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(1,4,7,x_o)){
+                    run = false;
+                    bot(); 
+                    box[1].style.backgroundColor = "white";
+                    box[4].style.backgroundColor = "white";
+                    box[7].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(2,5,8,x_o)){
+                    run = false;
+                    bot(); 
+                    box[2].style.backgroundColor = "white";
+                    box[5].style.backgroundColor = "white";
+                    box[8].style.backgroundColor = "white";
+                    uo_win()
+                }
+                else if(make_Sure(2,4,6,x_o)){
+                    run = false;
+                    bot(); 
+                    box[2].style.backgroundColor = "white";
+                    box[4].style.backgroundColor = "blue";
+                    box[6].style.backgroundColor = "red";
+                    uo_win()
+                }
+                else if(make_Sure(0,4,8,x_o)){
+                   
+                    run = false;
+                    bot(); 
+                    box[0].style.backgroundColor = "white";
+                    box[4].style.backgroundColor = "white";
+                    box[8].style.backgroundColor = "white";
+                    uo_win()
+             
+                   }else{
+                         
+                           if(box[0].id != "" &&
+                              box[1].id != "" &&
+                              box[2].id != "" &&
+                              box[3].id != "" &&
+                              box[4].id != "" &&
+                              box[5].id != "" &&
+                              box[6].id != "" &&
+                              box[7].id != "" &&
+                              box[8].id != "" 
+                              )
+                              {
+                              
+                              play_main.classList.remove("show");
+                            win_r.children[0].textContent ="not win";
+                            win_r.classList.add("show");
+                          
+                           }
+                           
+                          
+                            
+                            
+                        
+                   }
+            }
+            
+            function reset(){
+                
+                for(var i of btns){
+                    
+                    i.innerHTML = null;
+                    i.style.pointerEvents = "auto";
+                    if(i.hasAttribute("id")){
+                   
+                    
+                    i.removeAttribute("id");
+                    
+                    }else{
+                        
+                        
+                    }
+                  
+                    
+                    
+                } 
+            }
+            
+            
+            
+          function replay(){
+              window.location.reload();
+          }
+          
+          
+          function uo_win(){
+            var jx_o = "("+x_o+")";
+            setTimeout(()=>{
+            play_main.classList.remove("show");   
+            win_r.children[0].innerHTML = "!فاز في اللعبة"+jx_o+"اللاعب";
+            win_r.classList.add("show");
+                       
+     
+                
+            },500) 
+                 
+          }
+          
+        </script>
+    </body>
+</html>
